@@ -28,6 +28,6 @@ func main() {
 	mux.HandleFunc(tasks.TypeTopic0, tasks.HandleTopic0Task)
 
 	if err := srv.Run(mux); err != nil {
-		log.Fatalf("Could not run AsynQ server %v", err.Error())
+		log.Fatalf("Could not run AsynQ server %v \n", err.Error())
 	}
 }

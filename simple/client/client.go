@@ -5,6 +5,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/hibiken/asynq"
 )
 
@@ -24,31 +25,32 @@ func main() {
 
 func immediateEnqueue(client *asynq.Client) {
 	// Immediate enqueue
-	task, err := tasks.NewTopic0Task("admin")
+	uuid := uuid.NewString()
+	task, err := tasks.NewTopic0Task(uuid)
 	if err != nil {
-		log.Fatal("Cannot create task on topic 0")
+		log.Fatalln("Cannot create task on topic 0 " + uuid)
 	}
 
 	info, err := client.Enqueue(task)
 	if err != nil {
-		log.Fatal("Cannot enqueue task on topic 0")
+		log.Fatalln("Cannot enqueue task on topic 0")
 	}
 
-	log.Printf("Topic 0 task is on queued with id: %s, queue: %s", info.ID, info.Queue)
+	log.Printf("Topic 0 task is on queued with id: %s, queue: %s\n", info.ID, info.Queue)
 
 }
 
 func scheduledQueue(client *asynq.Client) {
 	task, err := tasks.NewTopic0Task("admin")
 	if err != nil {
-		log.Fatal("Cannot create task on topic 0")
+		log.Fatalln("Cannot create task on topic 0")
 	}
 
 	info, err := client.Enqueue(task, asynq.ProcessIn(24*time.Hour))
 	if err != nil {
-		log.Fatal("Cannot enqueue task on topic 0")
+		log.Fatalln("Cannot enqueue task on topic 0")
 	}
 
-	log.Printf("Topic 0 task is on queued with id: %s, queue: %s", info.ID, info.Queue)
+	log.Printf("Topic 0 task is on queued with id: %s, queue: %s\n", info.ID, info.Queue)
 
 }

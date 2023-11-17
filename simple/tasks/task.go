@@ -36,7 +36,7 @@ func HandleTopic0Task(ctx context.Context, t *asynq.Task) error {
 		t.Payload(),
 		&p,
 	); err != nil {
-		return fmt.Errorf("Json unmarshal failed on topic 0, cause: ", err.Error())
+		return fmt.Errorf("Json unmarshal failed on topic 0, cause: %s \n", err.Error())
 	}
 
 	log.Printf("Processing topic 0 payload %+v...", p)
