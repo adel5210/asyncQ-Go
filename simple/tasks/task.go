@@ -14,13 +14,15 @@ const (
 )
 
 type Topic0Payload struct {
-	Username string
+	Id    uint32
+	Token string
 }
 
-func NewTopic0Task(username string) (*asynq.Task, error) {
+func NewTopic0Task(id uint32, token string) (*asynq.Task, error) {
 	payload, err := json.Marshal(
 		Topic0Payload{
-			Username: username,
+			Id:    id,
+			Token: token,
 		},
 	)
 	if err != nil {

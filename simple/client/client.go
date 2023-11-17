@@ -18,15 +18,17 @@ func main() {
 		},
 	)
 	defer client.Close()
-
-	immediateEnqueue(client)
-	scheduledQueue(client)
+	var i uint32
+	for i = 0; i < 1000; i++ {
+		immediateEnqueue(i, client)
+	}
+	// scheduledQueue(client)
 }
 
-func immediateEnqueue(client *asynq.Client) {
+func immediateEnqueue(id uint32, client *asynq.Client) {
 	// Immediate enqueue
 	uuid := uuid.NewString()
-	task, err := tasks.NewTopic0Task(uuid)
+	task, err := tasks.NewTopic0Task(id, uuid)
 	if err != nil {
 		log.Fatalln("Cannot create task on topic 0 " + uuid)
 	}
@@ -36,12 +38,12 @@ func immediateEnqueue(client *asynq.Client) {
 		log.Fatalln("Cannot enqueue task on topic 0")
 	}
 
-	log.Printf("Topic 0 task is on queued with id: %s, queue: %s\n", info.ID, info.Queue)
+	log.Printf("Topic 0 task is on queued with id: %d info.id: %s, queue: %s\n", id, info.ID, info.Queue)
 
 }
 
 func scheduledQueue(client *asynq.Client) {
-	task, err := tasks.NewTopic0Task("admin")
+	task, err := tasks.NewTopic0Task(0, "admin")
 	if err != nil {
 		log.Fatalln("Cannot create task on topic 0")
 	}
